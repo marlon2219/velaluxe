@@ -1,7 +1,7 @@
 
 
 export default function WhatsAppButton() {
-  const phone = "593999999999"; // cambia por el número real de Ecuador
+  const phone = "593999933455"; 
   const message = "Hola, quiero información sobre sus servicios de maquillaje.";
 
   return (

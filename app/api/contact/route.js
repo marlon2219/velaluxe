@@ -104,18 +104,17 @@ export async function POST(request) {
     }
 
     const data = await resend.emails.send({
-      from: "Formulario Web <onboarding@resend.dev>",
-      to: [toEmail],
-      replyTo: cleanEmail,
-      subject: `Nuevo mensaje de ${cleanName}`,
-      react: ContactEmail({
-        name: cleanName,
-        email: cleanEmail,
-        phone: cleanPhone,
-        message: cleanMessage,
-      }),
-    });
-
+  from: "Formulario Web <contacto@estefaniavelasco.com>",
+  to: [toEmail],
+  replyTo: cleanEmail,
+  subject: `Nuevo mensaje de ${cleanName}`,
+  react: ContactEmail({
+    name: cleanName,
+    email: cleanEmail,
+    phone: cleanPhone,
+    message: cleanMessage,
+  }),
+});
     console.log("RESPUESTA RESEND:", data);
 
     if (data.error) {

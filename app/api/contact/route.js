@@ -1,12 +1,12 @@
 import { Resend } from "resend";
 import ContactEmail from "../../../components/emails/ContactEmail";
 
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
 function isValidEcuadorPhone(phone) {
   const cleanPhone = phone.replace(/\s|-/g, "");
 
@@ -26,7 +26,6 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-
     console.log("Entró al POST /api/contact");
 
     const body = await request.json();
@@ -104,7 +103,7 @@ export async function POST(request) {
       );
     }
 
-    const { error } = await resend.emails.send({
+    const data = await resend.emails.send({
       from: "Formulario Web <onboarding@resend.dev>",
       to: [toEmail],
       replyTo: cleanEmail,
@@ -116,15 +115,17 @@ export async function POST(request) {
         message: cleanMessage,
       }),
     });
+
     console.log("RESPUESTA RESEND:", data);
 
-    if (error) {
-      console.error("ERROR REAL:", error);
+    if (data.error) {
+      console.error("ERROR REAL:", data.error);
 
-      return NextResponse.json(
+      return Response.json(
         {
-          error: "No se pudo enviar el email",
-          details: error.message,
+          ok: false,
+          message: "No se pudo enviar el email",
+          details: data.error.message,
         },
         { status: 500 }
       );

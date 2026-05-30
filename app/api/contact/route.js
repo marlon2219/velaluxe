@@ -63,14 +63,14 @@ export async function POST(request) {
     }
 
     if (!isValidEcuadorPhone(cleanPhone)) {
-  return Response.json(
-    {
-      ok: false,
-      message: "El número de teléfono no es válido para Ecuador",
-    },
-    { status: 400 }
-  );
-}
+      return Response.json(
+        {
+          ok: false,
+          message: "El número de teléfono no es válido para Ecuador",
+        },
+        { status: 400 }
+      );
+    }
 
     if (!isValidEmail(cleanEmail)) {
       return Response.json(
@@ -116,12 +116,15 @@ export async function POST(request) {
         message: cleanMessage,
       }),
     });
+    console.log("RESPUESTA RESEND:", data);
 
     if (error) {
-      return Response.json(
+      console.error("ERROR REAL:", error);
+
+      return NextResponse.json(
         {
-          ok: false,
-          message: "No se pudo enviar el email",
+          error: "No se pudo enviar el email",
+          details: error.message,
         },
         { status: 500 }
       );
